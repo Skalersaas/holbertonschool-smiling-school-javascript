@@ -24,8 +24,8 @@ class Quote extends Section{
     static load = (loaderId, containerId, url) => {
         super.load(loaderId,containerId, url, this.makeItems, this.makeItem)
     }
-    static makeItems = (result) => {
-        super.makeItems(result, this.makeItem);
+    static makeItems = (result, carousel) => {
+        super.makeItems(result, carousel, this.makeItem);
     }
     static makeItem = (item, first = false) => {
         let text = Create("p", "text-white");
@@ -64,7 +64,6 @@ class PopularTuts extends Section{
         super.makeItems(result, carousel, this.makeItem);
     }
     static makeItem = (item, first = false) => {
-        let Item = Create("div", "col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center");
 
         let info = Create("div","info pt-3 d-flex justify-content-between");
         let rating = Create("div", "rating");
@@ -106,8 +105,12 @@ class PopularTuts extends Section{
         overlay.appendChild(Play);
         appendChildren(card, videoThumbnail, overlay, cardBody);
 
-        appendChildren(Item, card);
-        return Item;
+        let Item = Create("div", "col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center");
+        Item.appendChild(card);
+        let cl = first ? "carousel-item active":"carousel-item";
+        let tt = Create("div",cl);
+        tt.appendChild(Item);        
+        return tt;
     } 
 }
 
@@ -122,5 +125,6 @@ const Create = (tag, className) => {
     return Item;
 }
 $(document).ready(function(){
+    Quote.load("#quote-loader","#carousel","https://smileschool-api.hbtn.info/quotes");
     PopularTuts.load("#pTuts-loader", "#pcarousel","https://smileschool-api.hbtn.info/popular-tutorials");
 });
