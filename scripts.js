@@ -107,10 +107,12 @@ class PopularTuts extends Section{
 
         let Item = Create("div", "col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center");
         Item.appendChild(card);
+        let row = Create("div", "row mx-auto align-items-center");
+        row.appendChild(Item);
         let cl = first ? "carousel-item active":"carousel-item";
-        let tt = Create("div",cl);
-        tt.appendChild(Item);        
-        return tt;
+        let main = Create("div", cl);
+        main.appendChild(row);        
+        return main;
     } 
 }
 
@@ -124,7 +126,20 @@ const Create = (tag, className) => {
     Item.className = className;
     return Item;
 }
+function setup() {
+    $("#pcarousel .carousel-item").each(function(){
+        let next = $(this).next();
+        for(let i=0;i<3;i++)
+        {
+            if(!next.length) 
+                next = $(this).siblings(":first");
+            next.children(":first-child").children(":first-child").clone().appendTo($(this).children(":first-child"));
+            next = next.next();
+        }
+    })
+}
 $(document).ready(function(){
     Quote.load("#quote-loader","#carousel","https://smileschool-api.hbtn.info/quotes");
     PopularTuts.load("#pTuts-loader", "#pcarousel","https://smileschool-api.hbtn.info/popular-tutorials");
+    setTimeout(setup, 200)
 });

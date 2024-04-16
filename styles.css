@@ -344,6 +344,13 @@
 .popular .carousel-control-next.arrow-right {
   right: var(--popular-arrows-x);
 }
+#pcarousel .active.carousel-item-left { left: 25%; }
+#pcarousel .carousel-item-next { left:  -50%; }
+#pcarousel .carousel-item {
+  background: white;
+/*   transition: transform; */
+  transition: all 6s ease-out;
+}
 
 @media screen and (max-width: 1280px) {
   :root {
